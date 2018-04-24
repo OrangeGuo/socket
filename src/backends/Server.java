@@ -59,11 +59,9 @@ public class Server {
                 String message = "";
                 target = content.charAt(2) - 48;
                 if (cache[target].size() > 0) {
-                    for (int i = 0; i < cache[target].size(); i++) {
-                        message += cache[target].get(i);
-                        message += "\n";
-                    }
-                    cache[target].clear();
+                    message += cache[target].get(0);
+                    message += "\n";
+                    cache[target].remove(0);
                 }
                 OutputStream outputStream = socket.getOutputStream();
                 outputStream.write(message.getBytes("UTF-8"));
@@ -71,11 +69,11 @@ public class Server {
                 outputStream.close();
                 socket.close();
                 for (int i = 0; i < cache.length; i++) {
-                    System.out.print(cache[i].size()+";");
+                    System.out.print(cache[i].size() + ";");
 
                 }
                 System.out.println();
-            } catch (Exception e ) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -88,7 +86,6 @@ public class Server {
 
 
     }
-
 
 
 }
