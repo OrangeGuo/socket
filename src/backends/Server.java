@@ -35,54 +35,58 @@ public class Server {
         //如果使用多线程，那就需要线程池，防止并发过高时创建过多线程耗尽资源
         threadPool = Executors.newFixedThreadPool(20);
 
-        while (max_num > 0) {
+        while (true) {
 
 
             Socket socket = server.accept();
 
-            try {
-                // 建立好连接后，从socket中获取输入流，并建立缓冲区进行读取
-                InputStream inputStream = socket.getInputStream();
-                byte[] bytes = new byte[1024];
-                int len;
-                StringBuilder sb = new StringBuilder();
-                while ((len = inputStream.read(bytes)) != -1) {
-                    // 注意指定编码格式，发送方和接收方一定要统一，建议使用UTF-8
-                    sb.append(new String(bytes, 0, len, "UTF-8"));
+
+
+            Runnable runnable=()->{
+                try {
+                    // 建立好连接后，从socket中获取输入流，并建立缓冲区进行读取
+                    InputStream inputStream = socket.getInputStream();
+                    byte[] bytes = new byte[1024];
+                    int len;
+                    StringBuilder sb = new StringBuilder();
+                    while ((len = inputStream.read(bytes)) != -1) {
+                        // 注意指定编码格式，发送方和接收方一定要统一，建议使用UTF-8
+                        sb.append(new String(bytes, 0, len, "UTF-8"));
+                    }
+                    String content = new String(sb);
+
+                    int target = content.charAt(0) - 48;
+                    cache[target].add(content.substring(2));
+                    //System.out.println(content.charAt(2)-48);
+                    //System.out.println(content.substring(2));
+                    String message = "";
+                    target = content.charAt(2) - 48;
+                    if (cache[target].size() > 0) {
+                        message += cache[target].get(0);
+                        message += "\n";
+                        cache[target].remove(0);
+                    }
+                    OutputStream outputStream = socket.getOutputStream();
+                    outputStream.write(message.getBytes("UTF-8"));
+                    inputStream.close();
+                    outputStream.close();
+                    socket.close();
+                    for (int i = 0; i < cache.length; i++) {
+                        System.out.print(cache[i].size() + ";");
+
+                    }
+                    System.out.println();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                String content = new String(sb);
+            };
+            threadPool.submit(runnable);
 
-                int target = content.charAt(0) - 48;
-                cache[target].add(content.substring(2));
-                //System.out.println(content.charAt(2)-48);
-                //System.out.println(content.substring(2));
-                String message = "";
-                target = content.charAt(2) - 48;
-                if (cache[target].size() > 0) {
-                    message += cache[target].get(0);
-                    message += "\n";
-                    cache[target].remove(0);
-                }
-                OutputStream outputStream = socket.getOutputStream();
-                outputStream.write(message.getBytes("UTF-8"));
-                inputStream.close();
-                outputStream.close();
-                socket.close();
-                for (int i = 0; i < cache.length; i++) {
-                    System.out.print(cache[i].size() + ";");
-
-                }
-                System.out.println();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-            max_num--;
+//            max_num--;
         }
 
 
-        server.close();
+//        server.close();
 
 
     }
