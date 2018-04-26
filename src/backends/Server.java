@@ -1,6 +1,8 @@
 package backends;
 
 
+import ui.MainFrame;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -21,6 +23,7 @@ public class Server {
         ServerSocket server;
         ExecutorService threadPool;
         ArrayList[] cache;
+        MainFrame mainFrame=new MainFrame();
 
         cache = new ArrayList[4];
         for (int i = 0; i < 4; i++) {
@@ -71,18 +74,17 @@ public class Server {
                     inputStream.close();
                     outputStream.close();
                     socket.close();
-                    for (int i = 0; i < cache.length; i++) {
-                        System.out.print(cache[i].size() + ";");
 
-                    }
-                    System.out.println();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             };
             threadPool.submit(runnable);
 
-//            max_num--;
+            max_num--;
+            if(max_num%40==0){
+                mainFrame.update(cache);
+            }
         }
 
 
