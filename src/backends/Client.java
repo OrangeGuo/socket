@@ -12,7 +12,7 @@ public class Client implements Runnable {
     private Socket socket;
     private OutputStream outputStream;
     private Thread thread;
-
+    private int send,receive;
 
     public static void main(String[] args) throws Exception {
         for (int i = 0; i < 4; i++) {
@@ -22,6 +22,8 @@ public class Client implements Runnable {
 
     public Client(int id) throws Exception {
         this.id = id;
+        this.send=0;
+        this.receive=0;
     }
 
     public void run() {
@@ -51,9 +53,13 @@ public class Client implements Runnable {
 //                System.out.println("host " + this.id);
 //                System.out.println(sb);
                 content=new String(sb);
+                if(content.length()!=0)
+                    this.receive++;
                 inputStream.close();
                 outputStream.close();
                 socket.close();
+                this.send++;
+
 
             } catch (IOException e) {
                 e.printStackTrace();
