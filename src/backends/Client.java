@@ -28,7 +28,7 @@ public class Client implements Runnable {
 
     public void run() {
         for (int i = 0; i < 100; i++) {
-            String content="";
+            String content = "";
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -52,8 +52,8 @@ public class Client implements Runnable {
                 }
 //                System.out.println("host " + this.id);
 //                System.out.println(sb);
-                content=new String(sb);
-                if(content.length()!=0)
+                content = new String(sb);
+                if (content.length() != 0)
                     this.receive++;
                 inputStream.close();
                 outputStream.close();
@@ -64,11 +64,11 @@ public class Client implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            FileWriter fileWriter=null;
+            FileWriter fileWriter = null;
             try {
-            fileWriter=new FileWriter("host"+this.id+".txt",true);
-            fileWriter.write(content);
-                if(fileWriter!=null)
+                fileWriter = new FileWriter("host" + this.id + ".txt", true);
+                fileWriter.write(content);
+                if (fileWriter != null)
                     fileWriter.close();
             } catch (IOException e) {
                 e.printStackTrace();

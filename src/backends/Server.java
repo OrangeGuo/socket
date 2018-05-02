@@ -37,7 +37,6 @@ public class Server {
 
         //如果使用多线程，那就需要线程池，防止并发过高时创建过多线程耗尽资源
         threadPool = Executors.newFixedThreadPool(20);
-
         while (true) {
 
 
