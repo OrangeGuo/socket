@@ -14,16 +14,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
+    private int max_num=400;
+    private  ServerSocket server;
+    private ExecutorService threadPool;
+    private ArrayList[] cache;
+    private MainFrame mainFrame;
+    public Server()throws Exception{
 
-
-    public static void main(String[] args) throws Exception {
-
-
-        int max_num = 400;
-        ServerSocket server;
-        ExecutorService threadPool;
-        ArrayList[] cache;
-        MainFrame mainFrame=new MainFrame();
 
         cache = new ArrayList[4];
         for (int i = 0; i < 4; i++) {
@@ -33,10 +30,14 @@ public class Server {
         int port = 8080;
         server = new ServerSocket(port);
         // server将一直等待连接的到来
-        System.out.println("路由器已经启动！");
+
 
         //如果使用多线程，那就需要线程池，防止并发过高时创建过多线程耗尽资源
         threadPool = Executors.newFixedThreadPool(20);
+        this.mainFrame=new MainFrame();
+    }
+    public void ServerStart() throws Exception{
+        System.out.println("路由器已经启动！");
         while (true) {
 
 
@@ -86,11 +87,13 @@ public class Server {
             }
         }
 
-
-//        server.close();
-
-
+    }
+    public void serverClose() throws Exception{
+        this.server.close();
     }
 
-
+    public static void main(String[] args) throws Exception{
+        Server server=new Server();
+        server.ServerStart();
+    }
 }

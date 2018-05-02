@@ -1,12 +1,23 @@
 package ui;
 
+import backends.Client;
+import backends.Server;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements ActionListener {
     StorePanel[] storePanels;
-    public MainFrame(){
+
+    JMenuBar jMenuBar;
+    JMenu setting;
+    JMenuItem quit,clientController;
+    public MainFrame()throws Exception{
+
         this.storePanels=new StorePanel[4];
         this.setTitle("模拟路由器");
         this.setVisible(true);
@@ -23,13 +34,46 @@ public class MainFrame extends JFrame {
         }
 
         this.add(jPanel);
+        jMenuBar=new JMenuBar();
+        setting=new JMenu("设置");
+
+        quit=new JMenuItem("退出");
+
+        clientController=new JMenuItem("启动主机");
+        quit.addActionListener(this);
+
+        clientController.addActionListener(this);
+
+        setting.add(clientController);
+        setting.add(quit);
+        jMenuBar.add(setting);
+
+
+        this.setJMenuBar(jMenuBar);
     }
     public void update(ArrayList[] arrayList){
         for (int i = 0; i < 4; i++) {
             this.storePanels[i].update(arrayList[i].size());
         }
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         MainFrame mainFrame=new MainFrame();
+        //mainFrame.server.ServerStart(mainFrame);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        if(actionEvent.getSource().equals(quit)){
+            System.out.println("exit");
+            System.exit(0);
+        }else{
+            for (int i = 0; i < 4; i++) {
+                try {
+                    new Client(i).start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
