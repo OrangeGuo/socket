@@ -7,7 +7,7 @@ public class StorePanel extends JPanel {
     private JProgressBar jProgressBar=null;
     private JLabel jLabel=null;
     private int max;
-    public StorePanel(int id,int max){
+    public StorePanel(int id,int max,MyLabel myLabel){
 
         this.max=max;
         //this.setLayout(new GridLayout(1,2));
@@ -21,8 +21,9 @@ public class StorePanel extends JPanel {
         this.jLabel=new JLabel("端口 "+(id+1)+"存储器");
         this.jLabel.setForeground(Color.blue);
         this.jLabel.setFont(new Font("Bitstream Vera Sans", Font.BOLD, 20));
-        this.add(this.jLabel,BorderLayout.SOUTH);
+        this.add(this.jLabel,BorderLayout.NORTH);
         this.add(this.jProgressBar);
+        this.add(myLabel,BorderLayout.SOUTH);
 
     }
     public void update(int num){

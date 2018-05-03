@@ -16,9 +16,12 @@ public class MainFrame extends JFrame implements ActionListener {
     JMenuBar jMenuBar;
     JMenu setting;
     JMenuItem quit,clientController;
+
+    MyLabel[] labels;
     public MainFrame()throws Exception{
 
         this.storePanels=new StorePanel[4];
+        labels=new MyLabel[4];
         this.setTitle("模拟路由器");
         this.setVisible(true);
         this.setResizable(false);
@@ -29,7 +32,8 @@ public class MainFrame extends JFrame implements ActionListener {
         jPanel.setBackground(Color.white);
         jPanel.setLayout(new GridLayout(4,1));
         for (int i = 0; i < 4; i++) {
-            this.storePanels[i]=new StorePanel(i,50);
+            labels[i]=new MyLabel();
+            this.storePanels[i]=new StorePanel(i,50,labels[i]);
             jPanel.add(this.storePanels[i]);
         }
 
@@ -69,7 +73,7 @@ public class MainFrame extends JFrame implements ActionListener {
         }else{
             for (int i = 0; i < 4; i++) {
                 try {
-                    new Client(i).start();
+                    new Client(i,labels[i]).start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

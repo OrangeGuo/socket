@@ -1,5 +1,7 @@
 package backends;
 
+import ui.MyLabel;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,18 +14,13 @@ public class Client implements Runnable {
     private Socket socket;
     private OutputStream outputStream;
     private Thread thread;
-    private int send,receive;
+    private MyLabel myLabel;
 
-    public static void main(String[] args) throws Exception {
-        for (int i = 0; i < 4; i++) {
-            new Client(i).start();
-        }
-    }
 
-    public Client(int id) throws Exception {
+
+    public Client(int id, MyLabel myLabel) throws Exception {
         this.id = id;
-        this.send=0;
-        this.receive=0;
+        this.myLabel=myLabel;
     }
 
     public void run() {
@@ -54,11 +51,11 @@ public class Client implements Runnable {
 //                System.out.println(sb);
                 content = new String(sb);
                 if (content.length() != 0)
-                    this.receive++;
+                    this.myLabel.receive++;
                 inputStream.close();
                 outputStream.close();
                 socket.close();
-                this.send++;
+                this.myLabel.send++;
 
 
             } catch (IOException e) {
@@ -73,6 +70,10 @@ public class Client implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+
+                this.myLabel.display(content);
+
         }
 
     }
