@@ -1,14 +1,14 @@
 package backends;
 
-import ui.MyLabel;
-
+import javax.swing.*;
+import java.awt.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-public class Client implements Runnable {
+public class Client extends JFrame implements Runnable {
 
     private int id;//进程ID
     private Socket socket;
@@ -16,12 +16,32 @@ public class Client implements Runnable {
     private Thread thread;
     private MyLabel myLabel;
 
-
-
-    public Client(int id, MyLabel myLabel) throws Exception {
-        this.id = id;
-        this.myLabel=myLabel;
+    public static void main(String[] args) {
+        int id=0;
+        Client client= null;
+        try {
+            client = new Client(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        client.start();
     }
+
+    public Client(int id) throws Exception {
+        this.id = id+1;
+        this.myLabel=new MyLabel();
+        this.setTitle("主机"+this.id);
+        this.setVisible(true);
+        this.setResizable(false);
+        this.setSize(600,100);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel jPanel=new JPanel();
+        jPanel.add(myLabel,BorderLayout.CENTER);
+        this.add(jPanel);
+    }
+
+
 
     public void run() {
         for (int i = 0; i < 100; i++) {
@@ -72,7 +92,7 @@ public class Client implements Runnable {
             }
 
 
-                this.myLabel.display(content);
+            this.myLabel.display(content);
 
         }
 

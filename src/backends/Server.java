@@ -19,9 +19,10 @@ public class Server {
     private ExecutorService threadPool;
     private ArrayList[] cache;
     private MainFrame mainFrame;
+    Table table;
     public Server()throws Exception{
 
-
+        table=new Table();
         cache = new ArrayList[4];
         for (int i = 0; i < 4; i++) {
             cache[i] = new ArrayList<String>();
@@ -63,8 +64,8 @@ public class Server {
                     //System.out.println(content.charAt(2)-48);
                     //System.out.println(content.substring(2));
                     String message = "";
-                    target = content.charAt(2) - 48;
-                    if (cache[target].size() > 0) {
+                    target = content.charAt(2) - 49;
+                    if (cache[target].size() > 0&&table.queryTable(target)) {
                         message += cache[target].get(0);
                         message += "\n";
                         cache[target].remove(0);

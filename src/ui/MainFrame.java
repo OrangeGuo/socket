@@ -1,13 +1,13 @@
 package ui;
 
-import backends.Client;
-import backends.Server;
+import backends.MyLabel;
+import org.omg.SendingContext.RunTime;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.ArrayList;
 
 public class MainFrame extends JFrame implements ActionListener {
@@ -73,7 +73,16 @@ public class MainFrame extends JFrame implements ActionListener {
         }else{
             for (int i = 0; i < 4; i++) {
                 try {
-                    new Client(i,labels[i]).start();
+                   // new Client(i).start();
+                    Runtime runtime=Runtime.getRuntime();
+                    System.out.println(System.getProperty("user.dir"));
+                    //Process p=runtime.exec("vi");
+                    Process p=Runtime.getRuntime().exec(new String[]{"/bin/sh","-c","cd /home/orange/IdeaProjects/socket/src  && java backends.Client "+i});
+                    //Process p =runtime.exec("bash -c cd /home/orange/IdeaProjects/socket/src \n & java backends.Client "+i+ "\n");
+                    //ProcessBuilder processBuilder=new ProcessBuilder("java","backends.Client "+i);
+                    //processBuilder.directory(new File("/home/orange/IdeaProjects/socket/src"));
+                    //Process process=processBuilder.stcart();
+                    //System.out.println("000");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

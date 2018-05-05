@@ -1,5 +1,7 @@
 package ui;
 
+import backends.MyLabel;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,7 +9,7 @@ public class StorePanel extends JPanel {
     private JProgressBar jProgressBar=null;
     private JLabel jLabel=null;
     private int max;
-    public StorePanel(int id,int max,MyLabel myLabel){
+    public StorePanel(int id, int max, MyLabel myLabel){
 
         this.max=max;
         //this.setLayout(new GridLayout(1,2));
@@ -23,7 +25,7 @@ public class StorePanel extends JPanel {
         this.jLabel.setFont(new Font("Bitstream Vera Sans", Font.BOLD, 20));
         this.add(this.jLabel,BorderLayout.NORTH);
         this.add(this.jProgressBar);
-        this.add(myLabel,BorderLayout.SOUTH);
+        //this.add(myLabel,BorderLayout.SOUTH);
 
     }
     public void update(int num){
