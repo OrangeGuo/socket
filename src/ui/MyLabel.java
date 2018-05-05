@@ -12,7 +12,7 @@ public class MyLabel extends JLabel {
     }
 
     public void display(String content){
-        this.setText("接收:"+receive+" 发送:"+send+" 当前接收:"+content);
+        this.setText("接收"+receive+" 发送"+send+" 当前接收"+content);
         this.setFont(new Font("Bitstream Vera Sans", Font.BOLD, 15));
     }
 }

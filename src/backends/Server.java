@@ -59,7 +59,7 @@ public class Server {
                     String content = new String(sb);
 
                     int target = content.charAt(0) - 48;
-                    cache[target].add(content.substring(2));
+                    if(cache[target].size()<50)cache[target].add(content.substring(2));
                     //System.out.println(content.charAt(2)-48);
                     //System.out.println(content.substring(2));
                     String message = "";
@@ -82,9 +82,9 @@ public class Server {
             threadPool.submit(runnable);
 
             max_num--;
-            if(max_num%40==0){
+            //if(max_num%40==0){
                 mainFrame.update(cache);
-            }
+            //}
         }
 
     }
